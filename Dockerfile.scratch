@@ -1,0 +1,21 @@
+FROM golang:1.17 as build-env
+
+WORKDIR /go/src/app
+
+COPY app .
+
+RUN go get -d -v ./...
+
+RUN go vet -v
+
+RUN go test -v
+
+RUN CGO_ENABLED=0 go build -o /go/bin/app
+ 
+FROM scratch AS final
+
+COPY --from=build-env /go/bin/app /
+ 
+COPY --from=build-env /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+
+ENTRYPOINT ["/app"]
