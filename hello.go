@@ -8,7 +8,7 @@ import (
 
 func main() {
     http.HandleFunc("/", func (w http.ResponseWriter, r *http.Request) {
-        fmt.Fprintf(w, "Welcome to my website!")
+        fmt.Fprintf(w, "Welcome to my website !!!")
     })
     dt := time.Now()
       
